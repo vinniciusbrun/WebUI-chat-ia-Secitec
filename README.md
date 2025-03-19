@@ -20,5 +20,5 @@ Uma interface web simples para interagir com modelos de linguagem executados loc
 
 1. Clone o repositório:
 ```bash
-git clone https://github.com/seu-usuario/chat-ia.git
-cd chat-ia
+git clone https://github.com/vinniciusbrun/WebUI-chat-ia-Secitec.git
+cd WebUI-chat-ia-Secitec

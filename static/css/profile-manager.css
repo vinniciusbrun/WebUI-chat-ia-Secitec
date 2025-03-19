@@ -1,0 +1,204 @@
+.container {
+    display: grid;
+    grid-template-columns: 300px 1fr;
+    gap: 2rem;
+    padding: 2rem;
+    max-width: 1200px;
+    margin: 5rem auto 0;  /* Aumentado margin-top para 5rem */
+}
+
+:root {
+    --font-family: 'Inter', 'Noto Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: var(--font-family);
+}
+
+body {
+    background-color: #ffffff;
+    color: #1f2937;
+    font-family: var(--font-family);
+}
+.add-profile-button {
+    width: 100%;
+    padding: 0.75rem;
+    margin-bottom: 1rem;
+    background-color: #000000;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    transition: background-color 0.2s ease;
+}
+
+.add-profile-button:hover {
+    background-color: #1a1a1a;
+}
+
+.add-profile-button svg {
+    width: 16px;
+    height: 16px;
+    stroke: currentColor;
+}
+
+#profile-id {
+    display: none;
+}
+
+#editor-title {
+    margin-bottom: 1.5rem;
+}
+
+.form-actions {
+    display: flex;
+    gap: 1rem;
+    margin-top: 2rem;
+}
+
+.save-button, .delete-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    min-width: 120px;
+}
+.header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4rem;
+    padding: 0 2rem;
+    background-color: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;  /* Adiciona espaço entre os elementos */
+    z-index: 1000;
+}
+.back-button {
+    margin-left: auto;  /* Empurra o botão para a direita */
+    padding: 0.5rem 1rem;
+    background: white;
+    border: 1px solid #e5e7eb;
+    border-radius: 4px;
+    text-decoration: none;
+    color: #374151;
+    font-weight: 500;
+    transition: all 0.2s ease;
+}
+.back-button:hover {
+    background-color: #f3f4f6;
+    border-color: #d1d5db;
+}
+.header h1 {
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    font-family: var(--font-family);
+}
+.profile-item {
+    padding: 0.75rem;
+    border-radius: 6px;
+    cursor: pointer;
+    margin-bottom: 0.5rem;
+    transition: all 0.2s ease;
+    border: 1px solid transparent;
+}
+
+.profile-item:hover {
+    background-color: #f3f4f6;
+}
+
+.profile-item.active {
+    background-color: #f8f9fa;
+    border-color: #000;
+    font-weight: 500;
+    position: relative;
+}
+
+.profile-item.active::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 3px;
+    background-color: #000;
+    border-top-left-radius: 6px;
+    border-bottom-left-radius: 6px;
+}
+font-family: var(--font-family);
+}
+.form-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+    font-family: var(--font-family);
+}
+input[type="text"],
+input[type="number"],
+textarea,
+select,
+button {
+    font-family: var(--font-family);
+}
+input[type="text"],
+input[type="number"],
+textarea {
+    width: 100%;
+    padding: 0.5rem;
+    border: 1px solid #d1d5db;
+    border-radius: 4px;
+    font-size: 0.875rem;
+}
+.parameter-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+}
+.form-actions {
+    display: flex;
+    gap: 1rem;
+    margin-top: 2rem;
+}
+.save-button,
+.delete-button {
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    border: none;
+    cursor: pointer;
+    font-weight: 500;
+}
+.save-button {
+    background: #000000;
+    color: white;
+}
+.delete-button {
+    background: #ef4444;
+    color: white;
+}
+.profiles-list {
+    background: #f9fafb;
+    padding: 1rem;
+    border-radius: 8px;
+    border: 1px solid #e5e7eb;
+    margin-top: 1rem;  /* Adicionado margem extra */
+}
+.profile-editor {
+    background: white;
+    padding: 2rem;
+    border-radius: 8px;
+    border: 1px solid #e5e7eb;
+    margin-top: 1rem;  /* Adicionado margem extra */
+}

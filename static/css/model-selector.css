@@ -1,0 +1,98 @@
+.model-selector {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    margin-right: 15px;
+}
+
+.model-selector-button {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    background-color: #f5f5f5;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    padding: 6px 12px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.2s;
+    color: #333;
+}
+
+.model-selector-button:hover {
+    background-color: #eaeaea;
+}
+
+.model-selector-button svg {
+    width: 16px;
+    height: 16px;
+}
+
+.model-selector-dropdown {
+    position: absolute;
+    top: 100%;
+    right: 0;
+    min-width: 200px;
+    background-color: white;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    padding: 8px 0;
+    z-index: 1000;
+    margin-top: 5px;
+    display: none;
+    max-height: 300px;
+    overflow-y: auto;
+}
+
+.model-selector-dropdown.active {
+    display: block;
+}
+
+.model-option {
+    padding: 8px 16px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.model-option:hover {
+    background-color: #f5f5f5;
+}
+
+.model-option.selected {
+    background-color: #e6f7ff;
+    font-weight: 500;
+}
+
+.model-status {
+    border-radius: 50%;
+    width: 8px;
+    height: 8px;
+    margin-left: 5px;
+    display: inline-block;
+}
+
+.model-status.active {
+    background-color: #52c41a;
+}
+
+/* Estilos para loading state */
+.model-loading {
+    display: inline-block;
+    width: 12px;
+    height: 12px;
+    border: 2px solid #f3f3f3;
+    border-top: 2px solid #3498db;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin-left: 8px;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}

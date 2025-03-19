@@ -1,0 +1,5 @@
+{
+    "type": "positive",
+    "content": "Claro! A fórmula de Baskara é utilizada para resolver equações do segundo grau da forma ( ax^2 + bx + c = 0 ), onde (a), (b) e (c) são números reais, com a condição que (a \\neq 0). A fórmula de Baskara é dada por:\nx=−b±b2−4ac2a\n\nPara usar essa fórmula, siga os passos abaixo:\n\nIdentifique ( a), ( b) e ( c ) na equação do segundo grau.\nPor exemplo: Se você tem a equação ( x^2 - 5x + 6 = 0 ), então:\n\n( a = 1 )\n( b = -5 )\n( c = 6 )\n\n\nCalcule o discriminante ((Δ)), que é dado por:\n\n\nΔ=b2−4ac\n\n\nSubstitua os valores de (a), (b) e (c) no formulário da fórmula de Baskara.\nPara nosso exemplo:\n\nPrimeiro, calcule o discriminante: \nΔ=(−5)2−4(1)(6)=25−24=1\n\nAgora use a fórmula para encontrar as raízes (x):\nx1,x2=−(−5)±12(1)=5±12\n\nIsso nos dá duas soluções:\nx1=62=3\nx2=42=2\n\n\n\nPortanto, as raízes da equação (x^2 - 5x + 6 = 0) são (x = 3) e (x = 2).\nSe quiser resolver outra equação do segundo grau ou tiver mais alguma dúvida sobre o assunto, fique à vontade para perguntar!\n",
+    "timestamp": "2025-03-17T20:30:44.831Z"
+}

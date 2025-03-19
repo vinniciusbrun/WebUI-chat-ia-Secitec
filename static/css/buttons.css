@@ -1,0 +1,93 @@
+/* Message Action Buttons */
+.message-buttons {
+    display: flex;
+    margin-top: 8px;
+}
+
+.message-actions {
+    display: flex;
+    flex-direction: row;
+    gap: 8px;
+    align-items: center;
+    margin-left: 16px;
+}
+
+.message-actions button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: none;
+    border: none;
+    padding: 6px;
+    cursor: pointer;
+    border-radius: 4px;
+    width: 32px;
+    height: 32px;
+    transition: all 0.2s ease;
+}
+
+.message-actions button:hover {
+    background-color: rgba(0, 0, 0, 0.05);
+}
+
+.message-actions svg {
+    width: 16px;
+    height: 16px;
+    stroke: currentColor;
+}
+
+.message-actions button.selected {
+    background-color: #000000;
+    color: white;
+}
+
+.message-actions button.feedback-sent {
+    opacity: 0.5;
+    cursor: default;
+}
+
+.message-buttons.hidden {
+    display: none;
+}
+
+/* Copy Button */
+.copy-button {
+    position: static;
+    background: none;
+    border: none;
+    padding: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+}
+
+/* Notification */
+.notification {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    padding: 12px 24px;
+    border-radius: 8px;
+    font-size: 14px;
+    opacity: 0;
+    transform: translateY(10px);
+    transition: all 0.3s ease;
+    z-index: 1000;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+.notification.show {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.notification.success {
+    background-color: #000000;
+    color: #ffffff;
+}
+
+.notification.error {
+    background-color: #ef4444;
+    color: #ffffff;
+}

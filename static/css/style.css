@@ -1,0 +1,36 @@
+.math-block {
+    overflow-x: auto;
+    margin: 1em 0;
+    padding: 0.5em 0;
+    display: block;
+    text-align: center;
+}
+
+.math-inline {
+    padding: 0 0.2em;
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.mjx-chtml {
+    overflow-x: auto;
+    overflow-y: hidden;
+    max-width: 100%;
+}
+
+.math-display {
+    display: block;
+    text-align: center;
+    margin: 1em 0;
+    overflow-x: auto;
+    padding: 0.5em;
+}
+
+.MathJax {
+    outline: none;
+}
+
+.MathJax_Display {
+    overflow-x: auto;
+    overflow-y: hidden;
+}

@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gerenciador de Perfis - Chat IA</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/profile-manager.css') }}">
+</head>
+<body>
+    <div class="header">
+        <h1>Gerenciador de Perfis</h1>
+        <a href="/" class="back-button">Voltar ao Chat</a>
+    </div>
+    <div class="container">
+        <div class="profiles-list" id="profiles-list">
+            <button type="button" class="add-profile-button" id="add-profile">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <line x1="12" y1="5" x2="12" y2="19"></line>
+                    <line x1="5" y1="12" x2="19" y2="12"></line>
+                </svg>
+                Novo Perfil
+            </button>
+            <!-- Lista de perfis será preenchida via JavaScript -->
+        </div>
+        <div class="profile-editor" id="profile-editor">
+            <h2 id="editor-title">Editar Perfil</h2>
+            <form id="profile-form">
+                <input type="hidden" id="profile-id">
+                <div class="form-group">
+                    <label for="profile-name">Nome do Perfil</label>
+                    <input type="text" id="profile-name" required>
+                </div>
+                <div class="form-group">
+                    <label for="profile-description">Descrição</label>
+                    <textarea id="profile-description" required></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="prompt-template">Template do Prompt</label>
+                    <textarea id="prompt-template" rows="6" required></textarea>
+                </div>
+                <div class="parameters">
+                    <h3>Parâmetros</h3>
+                    <div class="parameter-grid">
+                        <div class="form-group">
+                            <label for="temperature">Temperature</label>
+                            <input type="number" id="temperature" step="0.1" min="0" max="2">
+                        </div>
+                        <div class="form-group">
+                            <label for="top-p">Top P</label>
+                            <input type="number" id="top-p" step="0.05" min="0" max="1">
+                        </div>
+                        <div class="form-group">
+                            <label for="top-k">Top K</label>
+                            <input type="number" id="top-k" step="1" min="1">
+                        </div>
+                        <div class="form-group">
+                            <label for="repeat-penalty">Repeat Penalty</label>
+                            <input type="number" id="repeat-penalty" step="0.1" min="1">
+                        </div>
+                    </div>
+                </div>
+                <div class="form-actions">
+                    <button type="submit" class="save-button" id="save-profile">
+                        <span id="save-text">Salvar Perfil</span>
+                    </button>
+                    <button type="button" class="delete-button" id="delete-profile">Excluir Perfil</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <script src="{{ url_for('static', filename='js/profile-editor.js') }}" type="module"></script>
+</body>
+</html>

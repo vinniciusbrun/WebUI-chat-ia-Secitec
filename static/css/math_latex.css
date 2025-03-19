@@ -1,0 +1,26 @@
+.math-block {
+    display: block;
+    overflow-x: auto;
+    margin: 1em 0;
+    padding: 0.5em;
+    background-color: rgba(0, 0, 0, 0.03);
+    border-radius: 4px;
+}
+
+.math-inline {
+    display: inline-block;
+    white-space: nowrap;
+}
+
+/* Garantir que o MathJax não quebre as fórmulas */
+.MathJax {
+    overflow-x: auto;
+    overflow-y: hidden;
+    max-width: 100%;
+}
+
+/* Ajuste para fórmulas muito longas */
+.MathJax_Display {
+    overflow-x: auto;
+    overflow-y: hidden;
+}

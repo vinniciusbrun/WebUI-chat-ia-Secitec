@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Skill Master Chat</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/ai-spacing.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/user-chat.css') }}">
+  <link rel="stylesheet" href="/static/css/buttons.css">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/markdown.css') }}">
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/input-bar.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/profile-selector.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/model-selector.css') }}">
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>
+    MathJax = {
+        tex: {
+            inlineMath: [['$', '$']],
+            displayMath: [['\\[', '\\]']],
+            processEscapes: true,
+            processEnvironments: true
+        },
+        startup: {
+            typeset: true
+        },
+        options: {
+            enableMenu: false
+        }
+    };
+    </script>
+    <script>
+    window.MathJax = {
+        loader: {load: ['[tex]/ams']},
+        tex: {
+            packages: {'[+]': ['ams']},
+            inlineMath: [['$', '$']],
+            displayMath: [['\\[', '\\]']],
+            processEscapes: true,
+            processEnvironments: true,
+            tags: 'ams'
+        },
+        svg: {
+            fontCache: 'global'
+        },
+        startup: {
+            pageReady: () => {
+                return MathJax.startup.defaultPageReady();
+            }
+        }
+    };
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js" id="MathJax-script"></script>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js" id="MathJax-script" async></script>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/math_latex.css') }}">
+    <!-- No head do documento, adicione: -->
+    <link rel="stylesheet" href="/static/css/typing-indicator.css">
+    <link rel="stylesheet" href="/static/css/cursor-animation.css">
+</head>
+<body>
+  <div class="header">
+    <div class="tooltip">
+      <h1 class="chat-ia-text">SKILL_MASTER CHAT</h1>
+      <div class="tooltiptext">
+        O que é isso?:<br>
+        Esta é uma aplicação webchat que utiliza inteligência artificial com o propósito de auxiliar os alunos da Escola Técnica de Rondonópolis no campo educacional.
+        <br><br>
+        Sobre o uso: <br>
+        O uso é gratuito e ilimitado.
+        <br><br>
+        Modelo de LLM:<br>
+        O modelo utilizado é o QWEN 2.5, treinado em 2024.
+        <br><br>
+        Sobre a interface:<br>
+        A WebUI, interface web de usuário, foi desenvolvida pelo TI da Unidade Secitec de Rondonópolis-MT em Fevereiro de 2025.
+      </div>
+    </div>
+    <div class="header-controls">
+        <!-- The model-selector will be automatically inserted here by model-selector.js -->
+        <div class="profile-selector">
+            <a href="/profile-manager" class="profile-manager-button">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z"/>
+                    <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1Z"/>
+                </svg>
+            </a>
+        </div>
+    </div>
+</div>
+  <div class="chat-container" id="chat-container"></div>
+  <div class="input-container">
+    <div class="input-wrapper">
+      <textarea 
+        class="message-input" 
+        id="message-input" 
+        placeholder="Sobre o que você quer saber?"
+        rows="1"
+      ></textarea>
+      <button class="send-button" id="send-button" aria-label="Enviar mensagem">
+        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path d="M2 21l21-9L2 3l0 7l15 2-15 2z"/>
+        </svg>
+      </button>
+      <button class="stop-button" id="stop-button" aria-label="Parar geração"></button>
+    </div>
+  </div>
+  <script src="{{ url_for('static', filename='js/chat.js') }}" type="module"></script>
+  <script src="{{ url_for('static', filename='js/profile-manager.js') }}" type="module"></script>
+  <script src="{{ url_for('static', filename='js/model-selector.js') }}" type="module"></script>
+</body>
+</html>

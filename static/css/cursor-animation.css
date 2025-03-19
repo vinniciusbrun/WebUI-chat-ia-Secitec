@@ -1,0 +1,26 @@
+/* Animação do cursor piscando */
+.typing-cursor {
+    display: inline-block;
+    width: 2px;
+    height: 18px;
+    background-color: #333;
+    margin-left: 2px;
+    vertical-align: middle;
+    animation: blink 0.7s infinite;
+}
+
+@keyframes blink {
+    0% { opacity: 1; }
+    50% { opacity: 0; }
+    100% { opacity: 1; }
+}
+
+/* Estilo para o container da mensagem em processamento */
+.processing-message {
+    display: flex;
+    align-items: center;
+}
+
+.processing-message .message-content {
+    margin-right: 4px;
+}

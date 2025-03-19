@@ -1,0 +1,25 @@
+.message.ai .message-content {
+    font-size: 1.125rem;  /* Increased from 1rem */
+    line-height: 1.75;    /* Increased from 1.6 */
+    letter-spacing: 0.01em;
+    color: #1f2937;
+    font-weight: 400;
+}
+
+.message.ai .message-content pre {
+    font-size: 0.95rem;
+    line-height: 1.5;
+    margin: 1rem 0;
+}
+
+.message.ai .message-content p {
+    margin-bottom: 1rem;
+}
+
+.message.ai .message-content h1,
+.message.ai .message-content h2,
+.message.ai .message-content h3 {
+    margin-top: 1.5rem;
+    margin-bottom: 1rem;
+    font-weight: 600;
+}

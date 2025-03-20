@@ -10,6 +10,9 @@ import uuid  # Adicione esta importação
 import threading  # Adicionar importação do threading
 import time  # Já está importado mais abaixo, mas é melhor ter aqui também
 
+# Importar o gerenciador de recursos
+from resource_manager import ResourceManager, PrioritizedRequest, estimate_gpu_usage
+
 # Configurações de logging
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
@@ -87,7 +90,11 @@ OLLAMA_URL = "http://127.0.0.1:11434"
 DEFAULT_MODEL = "qwen2.5"
 current_model = DEFAULT_MODEL
 MAX_MESSAGE_LENGTH = 4000  # Limite razoável para mensagens
-MAX_HISTORY_MESSAGES = 10  # Número máximo de mensagens no histórico
+# Modificar a constante MAX_HISTORY_MESSAGES para 5
+MAX_HISTORY_MESSAGES = 5  # Número máximo de mensagens no histórico (aumentado de 2 para 5)
+
+# Remover esta linha que está causando o erro
+# messages = chat_histories[session_id][-MAX_HISTORY_MESSAGES:] if len(chat_histories[session_id]) > MAX_HISTORY_MESSAGES else chat_histories[session_id]
 
 # Configurar sessão HTTP com retry otimizado
 session = requests.Session()
@@ -202,23 +209,142 @@ def warmup_model_with_greeting(model_name):
 
 # Add these routes after the existing routes but before the if __name__ == '__main__' block
 
+
 @app.route('/api/profiles', methods=['GET'])
 def get_profiles():
-    """Return all available profiles"""
+    """Retornar todos os perfis disponíveis"""
     try:
-        # Return only the profile names and descriptions
-        profiles_info = {}
-        for profile_id, profile_data in PROMPT_PROFILES.items():
-            profiles_info[profile_id] = {
-                "name": profile_data.get("name", "Unnamed Profile"),
-                "description": profile_data.get("description", "")
-            }
-        
-        logger.info(f"Returning {len(profiles_info)} profiles")
-        return jsonify(profiles_info)
+        logger.info(f"Retornando {len(PROMPT_PROFILES)} perfis")
+        return jsonify(PROMPT_PROFILES)
     except Exception as e:
-        logger.error(f"Error getting profiles: {str(e)}")
+        logger.error(f"Erro ao obter perfis: {str(e)}")
         return jsonify({"error": str(e)}), 500
+
+@app.route('/api/profiles/add', methods=['POST'])
+def add_profile():
+    """Adicionar um novo perfil"""
+    global PROMPT_PROFILES
+    
+    try:
+        data = request.json
+        if not data:
+            return jsonify({"error": "Dados não fornecidos"}), 400
+            
+        profile_id = data.get('id')
+        if not profile_id:
+            return jsonify({"error": "ID do perfil não fornecido"}), 400
+            
+        # Criar novo perfil
+        PROMPT_PROFILES[profile_id] = {
+            "name": data.get('name', 'Perfil sem nome'),
+            "description": data.get('description', ''),
+            "prompt_template": data.get('prompt_template', ''),
+            "parameters": data.get('parameters', {
+                "temperature": 0.7,
+                "top_p": 0.9,
+                "top_k": 50,
+                "repeat_penalty": 1.1
+            })
+        }
+        
+        # Salvar perfis no arquivo
+        save_profiles()
+        
+        logger.info(f"Perfil '{profile_id}' adicionado com sucesso")
+        return jsonify({"status": "success", "message": "Perfil adicionado com sucesso"})
+    except Exception as e:
+        logger.error(f"Erro ao adicionar perfil: {str(e)}")
+        return jsonify({"error": str(e)}), 500
+
+@app.route('/api/profiles/update', methods=['POST'])
+def update_profile():
+    """Atualizar um perfil existente"""
+    global PROMPT_PROFILES
+    
+    try:
+        data = request.json
+        if not data:
+            return jsonify({"error": "Dados não fornecidos"}), 400
+            
+        profile_id = data.get('id')
+        if not profile_id:
+            return jsonify({"error": "ID do perfil não fornecido"}), 400
+            
+        # Verificar se o perfil existe
+        if profile_id not in PROMPT_PROFILES:
+            return jsonify({"error": f"Perfil com ID '{profile_id}' não encontrado"}), 404
+            
+        # Atualizar perfil
+        PROMPT_PROFILES[profile_id] = {
+            "name": data.get('name', PROMPT_PROFILES[profile_id].get('name', 'Perfil sem nome')),
+            "description": data.get('description', PROMPT_PROFILES[profile_id].get('description', '')),
+            "prompt_template": data.get('prompt_template', PROMPT_PROFILES[profile_id].get('prompt_template', '')),
+            "parameters": data.get('parameters', PROMPT_PROFILES[profile_id].get('parameters', {
+                "temperature": 0.7,
+                "top_p": 0.9,
+                "top_k": 50,
+                "repeat_penalty": 1.1
+            }))
+        }
+        
+        # Salvar perfis no arquivo
+        save_profiles()
+        
+        logger.info(f"Perfil '{profile_id}' atualizado com sucesso")
+        return jsonify({"status": "success", "message": "Perfil atualizado com sucesso"})
+    except Exception as e:
+        logger.error(f"Erro ao atualizar perfil: {str(e)}")
+        return jsonify({"error": str(e)}), 500
+
+@app.route('/api/profiles/delete', methods=['POST'])
+def delete_profile():
+    """Excluir um perfil"""
+    global PROMPT_PROFILES, current_profile
+    
+    try:
+        data = request.json
+        if not data:
+            return jsonify({"error": "Dados não fornecidos"}), 400
+            
+        profile_id = data.get('id')
+        if not profile_id:
+            return jsonify({"error": "ID do perfil não fornecido"}), 400
+            
+        # Verificar se o perfil existe
+        if profile_id not in PROMPT_PROFILES:
+            return jsonify({"error": f"Perfil com ID '{profile_id}' não encontrado"}), 404
+            
+        # Não permitir excluir o perfil padrão
+        if profile_id == "default":
+            return jsonify({"error": "Não é possível excluir o perfil padrão"}), 403
+            
+        # Se o perfil atual for excluído, voltar para o perfil padrão
+        if profile_id == current_profile:
+            current_profile = "default"
+            
+        # Excluir perfil
+        del PROMPT_PROFILES[profile_id]
+        
+        # Salvar perfis no arquivo
+        save_profiles()
+        
+        logger.info(f"Perfil '{profile_id}' excluído com sucesso")
+        return jsonify({"status": "success", "message": "Perfil excluído com sucesso"})
+    except Exception as e:
+        logger.error(f"Erro ao excluir perfil: {str(e)}")
+        return jsonify({"error": str(e)}), 500
+
+def save_profiles():
+    """Salvar perfis no arquivo JSON"""
+    try:
+        profiles_path = os.path.join(os.path.dirname(__file__), 'config', 'profiles.json')
+        with open(profiles_path, 'w', encoding='utf-8') as f:
+            json.dump(PROMPT_PROFILES, f, ensure_ascii=False, indent=4)
+        logger.info("Perfis salvos com sucesso")
+        return True
+    except Exception as e:
+        logger.error(f"Erro ao salvar perfis: {str(e)}")
+        return False
 
 @app.route('/api/profiles/current', methods=['GET'])
 def get_current_profile():
@@ -299,30 +425,37 @@ def select_model():
 def submit_feedback():
     """Submit user feedback"""
     try:
-        feedback_data = request.json
-        if not feedback_data:
-            return jsonify({"status": "error", "error": "No feedback data provided"}), 400
-            
-        # Log only a summary of the feedback, not the entire content
-        feedback_type = feedback_data.get('type', 'unknown')
-        content_preview = feedback_data.get('content', '')[:30] + '...' if feedback_data.get('content') else 'No content'
-        logger.info(f"Feedback received: type={feedback_type}, content_preview={content_preview}")
+        message = request.json.get('message')
+        feedback_type = request.json.get('feedback_type')
         
-        # Here you could store the feedback in a database or file
+        if not message or not feedback_type:
+            return jsonify({"status": "error", "error": "Mensagem ou tipo de feedback não fornecido"}), 400
+            
+        # Validar o tipo de feedback
+        if feedback_type not in ['like', 'dislike']:
+            return jsonify({"status": "error", "error": "Tipo de feedback inválido"}), 400
+            
+        # Aqui você pode salvar o feedback em um banco de dados ou arquivo
+        # Por enquanto, apenas registramos no log
+        logger.info(f"Feedback recebido: {feedback_type} para mensagem: {message[:50]}...")
+        
+        # Criar diretório de feedback se não existir
         feedback_dir = os.path.join(os.path.dirname(__file__), 'feedback')
         if not os.path.exists(feedback_dir):
             os.makedirs(feedback_dir)
             
-        # Generate a unique filename with timestamp
+        # Salvar feedback em um arquivo
         timestamp = time.strftime("%Y%m%d-%H%M%S")
-        feedback_file = os.path.join(feedback_dir, f"feedback-{timestamp}-{uuid.uuid4()}.json")
+        feedback_file = os.path.join(feedback_dir, f"feedback_{timestamp}_{feedback_type}.txt")
         
         with open(feedback_file, 'w', encoding='utf-8') as f:
-            json.dump(feedback_data, f, ensure_ascii=False, indent=4)
+            f.write(f"Tipo: {feedback_type}\n")
+            f.write(f"Data: {time.strftime('%Y-%m-%d %H:%M:%S')}\n")
+            f.write(f"Mensagem:\n{message}")
             
-        return jsonify({"status": "success", "message": "Feedback submitted successfully"})
+        return jsonify({"status": "success", "message": "Feedback recebido com sucesso"})
     except Exception as e:
-        logger.error(f"Error submitting feedback: {str(e)}")
+        logger.error(f"Erro ao processar feedback: {str(e)}")
         return jsonify({"status": "error", "error": str(e)}), 500
 
 # Add these variables globally after the warmup_model_with_greeting function
@@ -345,7 +478,7 @@ def keep_model_warm():
                 
                 # Só pré-carrega se:
                 # 1. Houve atividade recente (últimos 15 minutos)
-                # 2. O último warmup foi há mais de 10 minutos
+                # 2. O útimo warmup foi há mais de 10 minutos
                 if time_since_last_activity < 900 and time_since_last_warmup > 600:
                     logger.info(f"Realizando warmup periódico (última atividade há {time_since_last_activity:.1f}s, último warmup há {time_since_last_warmup:.1f}s)")
                     warmup_model_with_greeting(current_model)
@@ -354,7 +487,7 @@ def keep_model_warm():
                     if time_since_last_activity >= 900:
                         logger.info(f"Pulando warmup periódico (inatividade de {time_since_last_activity:.1f}s)")
                     else:
-                        logger.info(f"Pulando warmup periódico (último warmup há apenas {time_since_last_warmup:.1f}s)")
+                        logger.info(f"Pulando warmup periódico (útimo warmup há apenas {time_since_last_warmup:.1f}s)")
         except Exception as e:
             logger.warning(f"Erro no warmup periódico: {str(e)}")
             
@@ -482,8 +615,8 @@ def get_ollama_response(message, session_id):
             "mirostat": 0,  # Desativar mirostat para maior velocidade
         })
         
-        # Prepare the messages for the API - usar apenas as últimas 2 mensagens para contexto mais curto
-        messages = chat_histories[session_id][-2:] if len(chat_histories[session_id]) > 2 else chat_histories[session_id]
+        # Prepare the messages for the API - usar apenas as últimas 4 mensagens para contexto mais amplo
+        messages = chat_histories[session_id][-4:] if len(chat_histories[session_id]) > 4 else chat_histories[session_id]
         
         # Add system message with prompt template if not already present
         if not any(msg.get("role") == "system" for msg in messages):
@@ -509,7 +642,7 @@ def get_ollama_response(message, session_id):
             stream=True,
             timeout=(5, 60)  # 5s connect, 60s read
         )
-        
+             
         if response.status_code != 200:
             logger.error(f"Erro na API do Ollama: {response.status_code}, {response.text}")
             yield f"Erro na API do Ollama: {response.status_code}"
@@ -669,7 +802,7 @@ if __name__ == '__main__':
         
         if not available_models:
             logger.error("Nenhum modelo disponível no Ollama. Verifique se o Ollama está rodando.")
-            print("ERRO: Nenhum modelo disponível no Ollama. Verifique se o Ollama está rodando.")
+            print("ERRO: Nenhum modelo disponível no Ollama. Verifique se o OllaMa está rodando.")
             exit(1)
         
         # Verificar o modelo atual usando a lista já obtida

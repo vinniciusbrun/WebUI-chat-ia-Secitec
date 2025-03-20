@@ -1,0 +1,42 @@
+Tipo: like
+Data: 2025-03-20 10:36:41
+Mensagem:
+O "atrito na produção" é um conceito que se refere aos custos ou perdas inerentes ao processo de fabricação ou fornecimento de bens e serviços. Esse termo não é tão comumente usado em economia como alguns outros, mas pode ser interpretado a partir de conceitos relacionados à produtividade, eficiência econômica, custos fixos, variáveis e indiretos.
+Conceitos Associados:
+
+Eficiência Econômica: Refere-se à capacidade de uma empresa em produzir bens e serviços usando a menor quantidade possível de recursos (capital, trabalho, materiais). Qualquer perda ou custo que impede essa eficiência pode ser considerado atrito.
+
+Produtividade: Medida da relação entre a saída (produtos fabricados) e os insumos necessários para produzi-los. Atrito na produção é o inverso dessa produtividade, ou seja, perdas que reduzem essa relação.
+
+Custos Indiretos de Produção: Esses são custos não direcionados diretamente à fabricação do produto final, como a manutenção das máquinas, gerenciamento da produção, e treinamento dos trabalhadores. Embora essas operações sejam necessárias para que a produção ocorra efetivamente, elas contribuem para o atrito na medida em que não produzem diretamente valor vendável.
+
+Custos de Desperdício: Inclui itens como falhas no produto, ineficiência na fabricação (excessos de matéria-prima), e tempo perdido por problemas técnicos ou administrativos.
+
+Economias de Escala vs Economias de Atrito: Enquanto economias de escala descrevem a redução dos custos unitários à medida que o tamanho da produção aumenta, as economias de atrito se referem à redução desses custos indiretos e ineficiências.
+
+
+Exemplos Práticos:
+
+Manutenção das Máquinas: A manutenção é necessária para garantir a operação contínua da máquina. No entanto, ela consome tempo que poderia ser usado na produção direta de bens e serviços.
+
+Treinamento do Trabalhador: O tempo gasto em treinamentos reduz o tempo disponível para a produção efetiva.
+
+Falhas na Produção: Falhas nas linhas de montagem resultam em perdas de matéria-prima e tempo, além de custos adicionais com reparos e manutenções emergenciais.
+
+
+Redução do Atrito
+Para minimizar o atrito na produção:
+
+Implementar processos Lean Manufacturing (produção enxuta) para reduzir desperdícios.
+
+Investir em tecnologias avançadas que aumentem a eficiência operacional e diminuam os custos indiretos.
+
+Melhorar a formação dos trabalhadores, permitindo que eles sejam mais produtivos e eficientes.
+
+
+Formulação Matemática:
+Embora não exista uma fórmula universalmente reconhecida para "atrito na produção", podemos representá-lo de forma simplificada como um percentual do custo total versus o valor produzido. Por exemplo, se a empresa inicia com R100emmateriaisefinalizacomR85 em produto vendável, os R$15 restantes podem ser considerados atrito na produção.
+çãçãAtrito=1−Custo de ProduçãoValor da Produção Final
+
+Essa é uma simplificação, e em práticas reais muitos outros fatores entrarão em jogo ao calcular o atrito na produção.
+Este conceito é crucial para gerenciamento estratégico e tomada de decisão nos negócios, pois entender e mitigar o atrito pode levar a aumentos significativos na produtividade e lucratividade.

@@ -11,11 +11,11 @@
   <link rel="stylesheet" href="/static/css/buttons.css">
   <link rel="stylesheet" href="{{ url_for('static', filename='css/markdown.css') }}">
   <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/input-bar.css') }}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/profile-selector.css') }}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/model-selector.css') }}">
-    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
-    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/input-bar.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/profile-selector.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/model-selector.css') }}">
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script>
     MathJax = {
         tex: {
@@ -59,36 +59,144 @@
     <!-- No head do documento, adicione: -->
     <link rel="stylesheet" href="/static/css/typing-indicator.css">
     <link rel="stylesheet" href="/static/css/cursor-animation.css">
+    
+    <!-- CSS para responsividade -->
+        <!-- CSS para responsividade -->
+        <style>
+          @media screen and (max-width: 768px) {
+            .header {
+              display: flex;
+              justify-content: space-between;
+              align-items: center;
+              padding: 10px 15px;
+              min-height: 60px;
+            }
+            
+            .chat-ia-text {
+              font-size: 1rem; /* Fonte menor para o nome do chat */
+              order: 1;
+              margin: 0;
+            }
+            
+            .header-controls {
+              display: flex;
+              flex-direction: row;
+              justify-content: flex-end;
+              align-items: center;
+              width: auto;
+              order: 2;
+              position: relative;
+            }
+            
+            /* Ajustes para o dropdown e ícones na mesma linha */
+            .profile-dropdown-button,
+            .icons-container {
+              display: inline-flex;
+              align-items: center;
+              justify-content: center;
+              margin-left: 10px;
+            }
+            
+            /* Forçar elementos a ficarem na mesma linha */
+            .model-selector, 
+            .profile-selector {
+              display: flex !important;
+              align-items: center;
+              justify-content: center;
+              margin: 0 5px;
+              height: 40px;
+            }
+            
+            /* Ocultar o nome do modelo no seletor */
+            .model-selector .model-name {
+              display: none !important;
+            }
+            
+            /* Ajustar o tamanho dos ícones */
+            .model-selector-icon,
+            .profile-manager-button svg {
+              width: 28px !important;
+              height: 28px !important;
+            }
+            
+            /* Garantir que os controles fiquem na mesma linha */
+            .tooltip {
+              width: 100%;
+              text-align: center;
+            }
+            
+            /* Ajustes para o dropdown do seletor de perfis */
+            .profile-dropdown {
+              position: absolute;
+              top: 100%;
+              z-index: 100;
+              left: 0;
+            }
+            
+            /* Garantir que o botão de configurações fique visível */
+            .profile-manager-button {
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              width: 40px;
+              height: 40px;
+            }
+          }
+          
+          @media screen and (max-width: 480px) {
+            .header {
+              min-height: 60px;
+              padding: 10px 15px;
+            }
+            
+            .chat-ia-text {
+              font-size: 0.9rem; /* Fonte ainda menor para telas menores */
+            }
+            
+            /* Ajuste adicional para celulares menores */
+            .header-controls {
+              padding: 5px 0;
+            }
+            
+            /* Reduzir ainda mais o espaçamento entre os elementos */
+            .model-selector, 
+            .profile-selector {
+              margin: 0 3px;
+            }
+            
+            /* Reduzir o tamanho do dropdown em telas muito pequenas */
+            .profile-dropdown-button {
+              max-width: 180px;
+            }
+          }
+        </style>
 </head>
 <body>
   <div class="header">
     <div class="tooltip">
       <h1 class="chat-ia-text">SKILL_MASTER CHAT</h1>
       <div class="tooltiptext">
-        O que é isso?:<br>
-        Esta é uma aplicação webchat que utiliza inteligência artificial com o propósito de auxiliar os alunos da Escola Técnica de Rondonópolis no campo educacional.
-        <br><br>
-        Sobre o uso: <br>
-        O uso é gratuito e ilimitado.
-        <br><br>
-        Modelo de LLM:<br>
-        O modelo utilizado é o QWEN 2.5, treinado em 2024.
-        <br><br>
-        Sobre a interface:<br>
-        A WebUI, interface web de usuário, foi desenvolvida pelo TI da Unidade Secitec de Rondonópolis-MT em Fevereiro de 2025.
+        <!-- Conteúdo do tooltip -->
       </div>
     </div>
     <div class="header-controls">
-        <!-- The model-selector will be automatically inserted here by model-selector.js -->
+      <!-- Todos os elementos na mesma linha -->
+      <div class="profile-dropdown-button">
+        <!-- O dropdown "Assistente Padrão" será inserido aqui pelo profile-selector.js -->
+      </div>
+      <div class="icons-container">
+        <!-- O seletor de modelos será inserido aqui pelo model-selector.js -->
         <div class="profile-selector">
-            <a href="/profile-manager" class="profile-manager-button">
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <path d="M12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z"/>
-                    <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1Z"/>
-                </svg>
-            </a>
+          <a href="/profile-manager" class="profile-manager-button">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z"/>
+              <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1Z"/>
+            </svg>
+          </a>
         </div>
+      </div>
     </div>
+  </div>
 </div>
   <div class="chat-container" id="chat-container"></div>
   <div class="input-container">

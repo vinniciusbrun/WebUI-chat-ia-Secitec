@@ -1,0 +1,35 @@
+Tipo: like
+Data: 2025-03-19 16:38:07
+Mensagem:
+Claro! Vamos revisar algumas das principais fórmulas para cálculos de força. Aqui estão elas:
+
+Lei da Gravitação Universal (Física): A força gravitacional entre dois objetos é dada por:
+
+F=Gm1m2r2
+onde \(G\) é a constante gravitacional universal (\(6.67408 \times 10^{-11}\, \text{N}(m/kg)^2\)), \(m_1\) e \(m_2\) são as massas dos objetos, e \(r\) é a distância entre os centros desses objetos.
+
+
+Lei de Newton da Força (Física): A força exercida por um objeto é dada pela sua massa vezes a aceleração que ele está experimentando:
+
+F=m⋅a
+onde \(m\) é a massa do objeto e \(a\) é a aceleração.
+
+
+Força Elástica (Física): A força elástica de um resorte pode ser calculada pela lei de Hooke:
+
+F=−kx
+onde \(k\) é a constante elástica do resorte e \(x\) é o deslocamento do resorte.
+
+
+Força Magnética (Física): A força magnética atuando sobre um carregado em movimento pode ser calculada por:
+
+F=qvBsin⁡(θ)
+onde \(q\) é a carga elétrica, \(v\) é a velocidade do objeto carregado, \(B\) é o campo magnético e \(\theta\) é o ângulo entre o vetor de velocidade e o vetor do campo magnético.
+
+
+Força Elétrica (Física): A força elétrica atuando sobre um carregado em movimento pode ser calculada por:
+
+F=qE
+onde \(q\) é a carga elétrica e \(E\) é o campo elétrico.
+
+Estas são algumas das fórmulas principais para cálculos de força. Você está procurando algo específico ou precisa de mais detalhes sobre alguma delas?

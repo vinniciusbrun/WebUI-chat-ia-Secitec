@@ -1,5 +1,7 @@
 // Marked configuration
 import { createCopyButton } from './copyButton.js';
+import { createFeedbackButtons } from './feedbackButtons.js'; // Movido para cá
+
 marked.setOptions({
   gfm: true,
   breaks: true,
@@ -149,6 +151,11 @@ document.addEventListener('DOMContentLoaded', function() {
       return cursor;
   }
 
+  // Remover estas linhas duplicadas (linha 152-153)
+  // No início do arquivo, adicione a importação do módulo feedbackButtons
+  // import { createCopyButton } from './copyButton.js';
+  // import { createFeedbackButtons } from './feedbackButtons.js';
+  
   async function processStreamResponse(response) {
       const reader = response.body.getReader();
       const decoder = new TextDecoder();
@@ -168,8 +175,8 @@ document.addEventListener('DOMContentLoaded', function() {
       messageDiv.appendChild(typingCursor);
       chatContainer.appendChild(messageDiv);
       
-      // Rolar para o final
-      chatContainer.scrollTop = chatContainer.scrollHeight;
+      // Rolar para mostrar a resposta da IA no topo da área visível
+      messageDiv.scrollIntoView({ behavior: 'smooth', block: 'start' });
   
       try {
           while (true) {
@@ -201,19 +208,11 @@ document.addEventListener('DOMContentLoaded', function() {
                   // Use createCopyButton from copyButton.js
                   const copyButton = createCopyButton(messageDiv, contentDiv);
                   
+                  // Usar o módulo feedbackButtons para criar os botões de feedback
+                  const feedbackContainer = createFeedbackButtons(messageDiv, contentDiv.textContent);
+                  
                   actionsDiv.appendChild(copyButton);
-                  actionsDiv.innerHTML += `
-                      <button class="feedback-button" data-type="positive">
-                          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                              <path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3zM7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"></path>
-                          </svg>
-                      </button>
-                      <button class="feedback-button" data-type="negative">
-                          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                              <path d="M10 15v4a3 3 0 0 0 3 3l4-9V2H5.72a2 2 0 0 0-2 1.7l-1.38 9a2 2 0 0 0 2 2.3zm7-13h3a2 2 0 0 1 2 2v7a2 2 0 0 1-2 2h-3"></path>
-                          </svg>
-                      </button>
-                  `;
+                  actionsDiv.appendChild(feedbackContainer);
                   
                   buttonsDiv.appendChild(actionsDiv);
                   messageDiv.appendChild(buttonsDiv);
@@ -267,17 +266,10 @@ document.addEventListener('DOMContentLoaded', function() {
       const message = messageInput.value.trim();
       if (!message) return;
       
-      // Limpar mensagens anteriores, mantendo apenas a última interação
-      const existingMessages = chatContainer.querySelectorAll('.message');
-      if (existingMessages.length > 0) {
-          // Remover todas as mensagens existentes
-          existingMessages.forEach(msg => {
-              chatContainer.removeChild(msg);
-          });
-      }
-      
       // Desabilitar input e botão enquanto processa
       messageInput.value = '';
+      // Resetar a altura do textarea para o padrão após limpar o conteúdo
+      messageInput.style.height = '';
       messageInput.disabled = true;
       sendButton.disabled = true;
       
@@ -286,48 +278,82 @@ document.addEventListener('DOMContentLoaded', function() {
           sendButton.style.display = 'none';
       }
       
-      // Adicionar mensagem do usuário
-      appendMessage(message, true);
+      // Adicionar mensagem do usuário abaixo da última resposta
+      const messageElement = document.createElement('div');
+      messageElement.className = 'message user';
+      
+      const contentDiv = document.createElement('div');
+      contentDiv.className = 'message-content';
+      contentDiv.textContent = message;
+      messageElement.appendChild(contentDiv);
+      
+      // Adicionar a mensagem ao final do chat (comportamento normal)
+      chatContainer.appendChild(messageElement);
+      
+      // Rolar para mostrar a mensagem do usuário no topo da área visível
+      messageElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
       
       try {
-          // Gerar ID de sessão único se não existir
-          if (!window.sessionId) {
-              window.sessionId = generateUUID();
-          }
-          
-          // Abortar requisição anterior se existir
-          if (controller) {
-              controller.abort();
-          }
-          
+          // Criar um novo AbortController para esta requisição
           controller = new AbortController();
+          const signal = controller.signal;
           
-          // Enviar requisição para o servidor
-          const response = await fetch('/chat', {
+          // Obter o modelo e perfil selecionados
+          const modelSelector = document.querySelector('.model-selector');
+          const profileSelector = document.querySelector('.profile-selector');
+          
+          let modelName = 'default';
+          let profileId = 'default';
+          
+          if (modelSelector) {
+              modelName = modelSelector.dataset.selectedModel || 'default';
+          }
+          
+          if (profileSelector) {
+              profileId = profileSelector.dataset.selectedProfile || 'default';
+          }
+          
+          // Enviar requisição para o servidor - Corrigindo o endpoint da API
+          const response = await fetch('/chat', {  // Alterado de '/api/chat' para '/chat'
               method: 'POST',
               headers: {
                   'Content-Type': 'application/json'
               },
               body: JSON.stringify({
                   message: message,
-                  session_id: window.sessionId,
-                  keep_last_only: true  // Indicar ao servidor para manter apenas a última mensagem no contexto
+                  session_id: localStorage.getItem('session_id') || generateUUID(),
+                  model: modelName,
+                  profile: profileId
               }),
-              signal: controller.signal
+              signal: signal
           });
           
           if (!response.ok) {
-              throw new Error(`Erro na requisição: ${response.status}`);
+              throw new Error(`Erro HTTP: ${response.status}`);
           }
           
-          // Processar resposta streaming
+          // Processar resposta em stream
           await processStreamResponse(response);
           
       } catch (error) {
-          // Resto do código permanece igual
           if (error.name !== 'AbortError') {
               console.error('Erro:', error);
-              appendMessage(`Erro: ${error.message}`, false);
+              
+              // Criar mensagem de erro da IA
+              const errorElement = document.createElement('div');
+              errorElement.className = 'message ai';
+              
+              const errorContentDiv = document.createElement('div');
+              errorContentDiv.className = 'message-content';
+              errorContentDiv.textContent = `Erro: ${error.message}`;
+              errorElement.appendChild(errorContentDiv);
+              
+              // Inserir mensagem de erro após a mensagem do usuário
+              if (chatContainer.firstChild) {
+                  chatContainer.insertBefore(errorElement, chatContainer.firstChild.nextSibling);
+              } else {
+                  chatContainer.appendChild(errorElement);
+              }
           }
       } finally {
           // Habilitar input e botão novamente

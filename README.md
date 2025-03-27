@@ -1,4 +1,4 @@
-# WebUI chat IA (Codnome SKILL_MASTER Chat) - Interface para Modelos de IA Local para uso na Escola Técnica Estadual de Rondonópolis
+# WebUI chat IA (Codinome SKILL_MASTER Chat) - Interface para Modelos de IA Local para uso na Escola Técnica Estadual de Rondonópolis
 
 Uma interface web simples para interagir com modelos de linguagem executados localmente através do Ollama.
 
